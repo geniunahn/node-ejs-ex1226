@@ -10,6 +10,10 @@ const readFile = fs.readFileSync("db.json", "utf-8");
 const readData = JSON.parse(readFile);
 // 그냥 readData 를 넣으면 배열 안에 배열이 들어가게 되므로 readData 배열의 요소만 복사해서 넣는다.
 products = [...readData];
+const admin = {
+  id: "admin",
+  pwd: "1234",
+};
 
 // ejs를 view 엔진으로 설정
 app.set("view engine", "ejs");
@@ -19,24 +23,31 @@ app.use(express.static("public"));
 
 // home
 app.get("/", function (요청, 응답) {
-  응답.render("pages/index.ejs");
+  응답.render("pages/index.ejs", { admin });
 });
 
 // about
 app.get("/about", function (req, res) {
-  res.render("pages/about.ejs");
+  res.render("pages/about.ejs", { admin });
 });
 
 // product
 app.get("/product", function (req, res) {
-  res.render("pages/product.ejs", { products });
+  res.render("pages/product.ejs", { products, admin });
 });
 
-// adimn
+// admin
 app.get("/admin", function (req, res) {
   res.render("pages/admin.ejs", {
     title: "관리자 페이지",
+    admin,
   });
+});
+
+// download
+app.get("/download", function (req, res) {
+  const file = "db.json";
+  res.download(file);
 });
 
 const port = 3001;

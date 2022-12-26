@@ -1,4 +1,21 @@
 <nav>
   <a href="/">home</a> | <a href="/about">about</a> |
-  <a href="/product">product</a> | <a href="/admin">admin</a> |
+  <a href="/product">product</a> |
+  <a onclick="isAdmin('<%= admin.id %>');return false" href="/admin">admin</a> |
 </nav>
+
+<script>
+  // 관리자 확인(id, pwd)
+  function isAdmin(id) {
+    const inputId = prompt("관리자 아이디 입력");
+    if (inputId === id) {
+      console.log("관리자 맞음");
+      // 자바스크립에서 링크로 이동하는 방법이다. a 의 링크를 금지한 상태이므로 클릭 이벤트에서 if 문이 실행되어야만 해당 링크로 이동하도록 된 것이다.
+      location.href = "/admin";
+    } else {
+      alert("id가 틀립니다.");
+    }
+    return false;
+    // 기본 이벤트 취소 (a 링크 동작 금지)
+  }
+</script>
